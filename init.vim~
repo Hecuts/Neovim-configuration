@@ -1,0 +1,74 @@
+:set number
+:set autoindent
+:set tabstop=2
+:set shiftwidth=2
+:set expandtab
+:set cursorline
+:set smartindent
+:set smarttab
+:set softtabstop=2
+:set mouse=a
+
+let g:NERDTreeShowHidden = 1 " show hidden files
+let g:NERDTreeMinimalUI = 1 " hide helper
+let g:NERDTreeIgnore = ['^node_modules$'] " ignore node_modules to increase load speed 
+let g:NERDTreeStatusline = '' " set to empty to use lightline
+let g:NERDTreeExactMatchHighlightColor = {} " disable exact match highlight
+
+
+" " Toggle
+" " Close window if NERDTree is the last one
+autocmd BufEnter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+" " Map to open current file in NERDTree and set size
+nnoremap <leader>pv :NERDTreeFind<bar> :vertical resize 45<CR>
+
+" NERDTree Syntax Highlight
+" " Enables folder icon highlighting using exact match
+let g:NERDTreeHighlightFolders = 1 
+" " Highlights the folder name
+let g:NERDTreeHighlightFoldersFullName = 1 
+
+
+call plug#begin('~/.config/nvim/plugged')
+
+	Plug 'preservim/nerdtree'
+	Plug 'tiagofumo/vim-nerdtree-syntax-highlight' " NERDTree Syntax Highlighting 
+	Plug 'Xuyuanp/nerdtree-git-plugin' " NERDTree Git Status
+	autocmd VimEnter * NERDTree
+       	Plug 'https://github.com/olimorris/onedarkpro.nvim'
+	Plug 'http://github.com/tpope/vim-surround' " Surrounding ysw)
+	Plug 'https://github.com/preservim/nerdtree' " NerdTree
+	Plug 'https://github.com/tpope/vim-commentary' " For Commenting gcc & gc
+	Plug 'https://github.com/vim-airline/vim-airline' " Status bar
+	Plug 'https://github.com/lifepillar/pgsql.vim' " PSQL Pluging needs :SQLSetType pgsql.vim
+	Plug 'https://github.com/ap/vim-css-color' " CSS Color Preview
+	Plug 'https://github.com/rafi/awesome-vim-colorschemes' " Retro Scheme
+	Plug 'https://github.com/neoclide/coc.nvim'  " Auto Completion
+	Plug 'https://github.com/neoclide/coc-eslint'
+	Plug 'https://github.com/neoclide/coc-prettier'
+	Plug 'https://github.com/ryanoasis/vim-devicons' " Developer Icons
+	Plug 'https://github.com/tc50cal/vim-terminal' " Vim Terminal
+	Plug 'https://github.com/preservim/tagbar' " Tagbar for code navigation
+	Plug 'https://github.com/terryma/vim-multiple-cursors' " CTRL + N for multiple cursors
+
+	set encoding=UTF-8
+     
+call plug#end()
+
+:colorscheme onedark_dark
+
+nnoremap <C-f> :NERDTreeFocus<CR> 
+nnoremap <C-n> :NERDTree<CR> 
+nnoremap <C-t> :NERDTreeToggle<CR>
+nnoremap <C-l> :call CocActionAsync('jumpDefinition')<CR>
+
+inoremap fd <Esc>
+
+nnoremap <C-v> :vsplit <C-R>=expand("%:p")<CR><CR> 
+
+# increase speed of cursor movement
+" set updatetime=300
+
+
+
+inoremap <expr> <Tab> pumvisible() ? coc#_select_confirm() : "<Tab>"
