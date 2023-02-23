@@ -1,58 +1,5 @@
-:set number
-:set autoindent
-:set tabstop=2
-:set shiftwidth=2
-:set expandtab
-:set cursorline
-:set smartindent
-:set smarttab
-:set softtabstop=2
-:set mouse=a
-
-
-" change the <leader> to space 
-noremap <SPACE> <nop> " disable the default <leader> mapping
-
-let mapleader = ' '
-let maplocalleader = ' '
-nnoremap \ :Ag<SPACE>
-nnoremap <leader>w :w!<CR>
-
-" " Copy to clipboard
-vnoremap  <leader>y  "+y
-nnoremap  <leader>Y  "+yg_
-nnoremap  <leader>y  "+y
-nnoremap  <leader>yy  "+yy
-
-" " Paste from clipboard
-nnoremap <leader>p "+p
-nnoremap <leader>P "+P
-vnoremap <leader>p "+p
-vnoremap <leader>P "+P
-
 call plug#begin('~/.config/nvim/plugged')
-
-Plug 'preservim/nerdtree'
-Plug 'tiagofumo/vim-nerdtree-syntax-highlight' " NERDTree Syntax Highlighting 
-Plug 'Xuyuanp/nerdtree-git-plugin' " NERDTree Git Status
-autocmd VimEnter * NERDTree
-Plug 'https://github.com/olimorris/onedarkpro.nvim'
-Plug 'http://github.com/tpope/vim-surround' " Surrounding ysw)
-Plug 'https://github.com/preservim/nerdtree' " NerdTree
-Plug 'https://github.com/tpope/vim-commentary' " For Commenting gcc & gc
-Plug 'https://github.com/vim-airline/vim-airline' " Status bar
-Plug 'https://github.com/lifepillar/pgsql.vim' " PSQL Pluging needs :SQLSetType pgsql.vim
-Plug 'https://github.com/ap/vim-css-color' " CSS Color Preview
-Plug 'https://github.com/rafi/awesome-vim-colorschemes' " Retro Scheme
-Plug 'https://github.com/neoclide/coc.nvim'  " Auto Completion
-Plug 'https://github.com/neoclide/coc-eslint'
-Plug 'https://github.com/neoclide/coc-prettier'
-Plug 'https://github.com/ryanoasis/vim-devicons' " Developer Icons
-Plug 'https://github.com/tc50cal/vim-terminal' " Vim Terminal
-Plug 'https://github.com/preservim/tagbar' " Tagbar for code navigation
-Plug 'https://github.com/terryma/vim-multiple-cursors' " CTRL + N for multiple cursors
-" Plug 'Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.1' }' " Telescope
-Plug 'https://github.com/Djancyp/better-comments.nvim' " Better Comments
+" Installed plugins
 Plug 'morhetz/gruvbox'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
@@ -75,48 +22,127 @@ Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'ryanoasis/vim-devicons'
 Plug 'tpope/vim-repeat'
-Plug 'nvim-lua/plenary.nvim' 
-Plug 'kana/vim-altr'
+call plug#end()
 
+" " change the <leader> to space
+" noremap <SPACE> <nop> " disable the default <leader> mapping
+"
+" let mapleader = ' '
+" let maplocalleader = ' '
+" nnoremap \ :Ag<SPACE>
+" nnoremap <leader>w :w!<CR>
+"
 
+" Color config
+if (has("termguicolors"))
+ set termguicolors
+endif
+set background=dark
+colorscheme gruvbox
 
-set encoding=UTF-8
-   
-call plug#end() " required for vim-plug to work properly 
+" Neovim config
+syntax enable
+syntax on
+set undodir=~/.config/nvim/undodir " set undotree file directory
+set undofile " set undotree to save to file
+set number relativenumber " set line number
+set nowrap " set no soft wrap
+set tabstop=2 softtabstop=2 " set tab size
+set shiftwidth=2 " affect amount of indentation
+set expandtab " set that tab will insert softabstop amount of space characters
+set nowritebackup                                            
+set noswapfile
+set nobackup
+set breakindent                                      
+set smartindent
+set smartcase
+set incsearch
+set hidden
+set updatetime=250
+set shortmess+=c
+set noshowmode
+set splitright
+let mapleader=" "
 
-:colorscheme gruvbox 
+" " Copy to clipboard
+vnoremap  <leader>y  "+y
+nnoremap  <leader>Y  "+yg_
+nnoremap  <leader>y  "+y
+nnoremap  <leader>yy  "+yy
 
-" set autoreload on change of file 
-autocmd BufWritePost * source %
+" " Paste from clipboard
+nnoremap <leader>p "+p
+nnoremap <leader>P "+P
+vnoremap <leader>p "+p
+vnoremap <leader>P "+P
 
-" set vim-altr to use alt + arrow keys to move between windows
-nmap <leader>r <Plug>(altr-forward)
-nmap <leader>q <Plug>(altr-back)
+" " Write file
+nnoremap <leader>w :w!<CR>
+" " Panel switching
+map <leader>h :wincmd h<CR>
+map <leader>j :wincmd j<CR>
+map <leader>k :wincmd k<CR>
+map <leader>l :wincmd l<CR>
+" " Split panel
+nnoremap <leader>v <C-w>v
+nnoremap <leader>s <C-w>s
+" " Map yanked to clipboard
+vnoremap <C-c> "*y
+" " Map show undo tree
+nnoremap <leader>u :UndotreeShow<CR>
+" " Map to open current file in NERDTree and set size
+nnoremap <leader>pv :NERDTreeFind<bar> :vertical resize 45<CR>
+" " Line moving
+" " " Normal mode
+nnoremap <C-j> :m .+1<CR>==
+nnoremap <C-k> :m .-2<CR>==
+" " Insert mode
+inoremap <C-j> <ESC>:m .+1<CR>==gi
+inoremap <C-k> <ESC>:m .-2<CR>==gi
+" " Visual mode
+vnoremap <C-j> :m '>+1<CR>gv=gv
+vnoremap <C-k> :m '<-2<CR>gv=gv
+" " Map escape for terminal emulator
+tnoremap <Esc> <C-\><C-n>
+inoremap fd <Esc>
+" " Map to replace text under cursor
+nnoremap <leader>sr :%s/\<<C-r><C-w>\>/
 
-" NERDTree Settings
-let g:NERDTreeShowHidden = 1 " show hidden files
+" " Change the scale of the font at runtime
+let g:neovide_scale_factor = 1.0
+function! ChangeScale(factor)
+    let g:neovide_scale_factor = g:neovide_scale_factor * a:factor
+    redraw!
+endfunction
+nnoremap <leader>1 :call ChangeScale(1.05)<CR>
+noremap <leader>2 :call ChangeScale(0.95)<CR>
+
+" " Maximize neovide window with F11
+function Neovide_fullscreen()
+    if g:neovide_fullscreen == v:true
+        let g:neovide_fullscreen=v:false
+    else
+        let g:neovide_fullscreen=v:true
+    endif
+endfunction
+map <F11> :call Neovide_fullscreen()<cr>
+
+" NERDTree
+let g:NERDTreeShowHidden = 1 
 let g:NERDTreeMinimalUI = 1 " hide helper
 let g:NERDTreeIgnore = ['^node_modules$'] " ignore node_modules to increase load speed 
 let g:NERDTreeStatusline = '' " set to empty to use lightline
-let g:NERDTreeExactMatchHighlightColor = {} " disable exact match highlight
-
-nnoremap <C-f> :NERDTreeFocus<CR> 
-nnoremap <C-n> :NERDTree<CR> 
-nnoremap <C-l> :call CocActionAsync('jumpDefinition')<CR>
-
 " " Toggle
-noremap <silent> ww :NERDTreeToggle<CR>
+noremap <silent> <leader>ww :NERDTreeToggle<CR>
+
 " " Close window if NERDTree is the last one
 autocmd BufEnter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-" " Map to open current file in NERDTree and set size
-nnoremap <leader>pv :NERDTreeFind<bar> :vertical resize 45<CR>
 
 " NERDTree Syntax Highlight
 " " Enables folder icon highlighting using exact match
 let g:NERDTreeHighlightFolders = 1 
 " " Highlights the folder name
 let g:NERDTreeHighlightFoldersFullName = 1 
-
 " " Color customization
 let s:brown = "905532"
 let s:aqua =  "3AFFDB"
@@ -154,20 +180,21 @@ let g:WebDevIconsDefaultFolderSymbolColor = s:beige
 let g:WebDevIconsDefaultFileSymbolColor = s:blue 
 
 " NERDTree Git Plugin
-let g:NERDTreeIndicatorMapCustom = {
-  \ "Modified"  : "✹",
-  \ "Staged"    : "✚",
-  \ "Untracked" : "✭",
-  \ "Renamed"   : "➜",
-  \ "Unmerged"  : "═",
-  \ "Deleted"   : "✖",
-  \ "Dirty"     : "✗",
-  \ "Clean"     : "✔︎",
-  \ 'Ignored'   : '☒',
-  \ "Unknown"   : "?"
-  \ }
+let g:NERDTreeGitStatusIndicatorMapCustom = {
+    \ "Modified"  : "✹",
+    \ "Staged"    : "✚",
+    \ "Untracked" : "✭",
+    \ "Renamed"   : "➜",
+    \ "Unmerged"  : "═",
+    \ "Deleted"   : "✖",
+    \ "Dirty"     : "✗",
+    \ "Clean"     : "✔︎",
+    \ 'Ignored'   : '☒',
+    \ "Unknown"   : "?"
+    \ }
 
-" Nerd commenter
+" Nerd Commenter
+" " Use compact syntax for prettified multi-line comments
 let g:NERDCompactSexyComs = 1
 " " Allow commenting and inverting empty lines (useful when commenting a region)
 let g:NERDCommentEmptyLines = 1
@@ -182,61 +209,42 @@ let g:NERDSpaceDelims = 1
 vmap ++ <plug>NERDCommenterToggle
 nmap ++ <plug>NERDCommenterToggle
 
-" Fuzzy search 
 " Fuzzy search
 nnoremap <C-p> :GFiles<CR>
 let g:fzf_action = {
-\ 'ctrl-t': 'tab split',
-\ 'ctrl-s': 'split',
-\ 'ctrl-v': 'vsplit'
-\}
+  \ 'ctrl-t': 'tab split',
+  \ 'ctrl-s': 'split',
+  \ 'ctrl-v': 'vsplit'
+  \}
 let $FZF_DEFAULT_COMMAND = 'ag -g ""'
-let g:fzf_command_prefix = 'fz'
 
-
-" Fuzzy finder with telescope
-nnoremap <leader>ff <cmd>Telescope find_files<cr>
-nnoremap <leader>fg <cmd>Telescope live_grep<cr>
-nnoremap <leader>fb <cmd>Telescope buffers<cr>
-nnoremap <leader>fh <cmd>Telescope help_tags<cr>
-
-" Using Lua for Telescope
-" lua require('telescope').setup{
-" defaults = {
-  " mappings = {
-    " i = {
-      " ["<C-j>"] = require('telescope.actions').move_selection_next,
-      " ["<C-k>"] = require('telescope.actions').move_selection_previous,
-    " },
-  " },
-" }
-" }
-" Using Lua functions
-nnoremap <leader>ff <cmd>lua require('telescope.builtin').find_files()<cr>
-nnoremap <leader>fg <cmd>lua require('telescope.builtin').live_grep()<cr>
-nnoremap <leader>fb <cmd>lua require('telescope.builtin').buffers()<cr>
-nnoremap <leader>fh <cmd>lua require('telescope.builtin').help_tags()<cr>
+" FZF
+noremap <leader>o :FZF<CR>
+noremap <leader>ff :Files<CR>
+noremap <leader>fg :GFiles?<CR>
+noremap <leader>fb :Buffers<CR>
+noremap <leader>fh :History<CR>
 
 
 " ALE (Asynchronous Lint Engine)
 let g:ale_fixers = {
-\ 'javascript': ['eslint']
-\ }
+ \ 'javascript': ['eslint']
+ \ }
 let g:ale_sign_error = '❌'
 let g:ale_sign_warning = '⚠️'
 let g:ale_fix_on_save = 1
 
 " Lightline
 let g:lightline = {
-\     'colorscheme': 'powerlineish',
-\     'active': {
-\         'left': [['mode', 'paste' ], ['gitbranch', 'readonly', 'filename', 'modified'], ],
-\         'right': [['lineinfo'], ['percent'], ['fileformat', 'fileencoding']]
-\     },
-\     'component_function': {
-\         'gitbranch': 'FugitiveHead'
-\     },
-\ }
+  \     'colorscheme': 'powerlineish',
+  \     'active': {
+  \         'left': [['mode', 'paste' ], ['gitbranch', 'readonly', 'filename', 'modified'], ],
+  \         'right': [['lineinfo'], ['percent'], ['fileformat', 'fileencoding']]
+  \     },
+  \     'component_function': {
+  \         'gitbranch': 'FugitiveHead'
+  \     },
+  \ }
 
 " Suda
 let g:suda_smart_edit = 1
@@ -246,17 +254,17 @@ let g:suda#prefix = ['suda://', 'sudo://', '_://']
 " " COC extension
 let g:coc_user_config = {}
 let g:coc_global_extensions = [
-    \ 'coc-emmet', 
-    \ 'coc-css', 
-    \ 'coc-html', 
-    \ 'coc-json', 
-    \ 'coc-prettier', 
-    \ 'coc-tsserver', 
-    \ 'coc-snippets', 
-    \ 'coc-lua',
-    \ 'coc-python',
-    \ 'coc-java',
-    \ 'coc-eslint']
+      \ 'coc-emmet', 
+      \ 'coc-css', 
+      \ 'coc-html', 
+      \ 'coc-json', 
+      \ 'coc-prettier', 
+      \ 'coc-tsserver', 
+      \ 'coc-snippets', 
+      \ 'coc-lua',
+      \ 'coc-python',
+      \ 'coc-java',
+      \ 'coc-eslint']
 " " To go back to previous state use Ctrl+O
 nmap <silent><leader>gd <Plug>(coc-definition)
 nmap <silent><leader>gy <Plug>(coc-type-definition)
@@ -264,23 +272,23 @@ nmap <silent><leader>gi <Plug>(coc-implementation)
 nmap <silent><leader>gr <Plug>(coc-references)
 
 inoremap <silent><expr> <TAB>
-    \ pumvisible() ? "\<C-n>" :
-    \ <SID>check_back_space() ? "\<TAB>" :
-    \ coc#refresh()
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
 inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
 function! s:check_back_space() abort
-let col = col('.') - 1
-return !col || getline('.')[col - 1]  =~# '\s'
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
 " " Always show the signcolumn, otherwise it would shift the text each time
 " " diagnostics appear/become resolved.
 if has("patch-8.1.1564")
-" " Recently vim can merge signcolumn and number column into one
-set signcolumn=number
+  " " Recently vim can merge signcolumn and number column into one
+  set signcolumn=number
 else
-set signcolumn=yes
+  set signcolumn=yes
 endif
 
 " " Use <c-space> to trigger completion.
@@ -290,9 +298,9 @@ inoremap <silent><expr> <c-space> coc#refresh()
 " " position. Coc only does snippet and additional edit on confirm.
 " " <cr> could be remapped by other vim plugin, try `:verbose imap <CR>`.
 if exists('*complete_info')
-inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
+  inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
 else
-inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+  inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 endif
 
 " " Highlight the symbol and its references when holding the cursor.
@@ -306,11 +314,11 @@ xmap <leader>f  <Plug>(coc-format-selected)
 nmap <leader>f  <Plug>(coc-format-selected
 
 augroup mygroup
-autocmd!
-" " Setup formatexpr specified filetype(s).
-autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
-" " Update signature help on jump placeholder.
-autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+  autocmd!
+  " " Setup formatexpr specified filetype(s).
+  autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
+  " " Update signature help on jump placeholder.
+  autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
 augroup end
 
 " " Applying codeAction to the selected region.
@@ -350,7 +358,6 @@ if executable('ag')
   " " ag is fast enough that CtrlP doesn't need to cache
   let g:ctrlp_use_caching = 0
 endif
-
 " " bind K to grep word under cursor
 nnoremap K :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
 " " bind \ (backward slash) to grep shortcut
@@ -358,13 +365,4 @@ command -nargs=+ -complete=file -bar Ag silent! grep! <args>|cwindow|redraw!
 
 " Repeat vim
 silent! call repeat#set("\<Plug>MyWonderfulMap", v:count)
-
-
-inoremap fd <Esc>
-
-nnoremap <C-v> :vsplit <C-R>=expand("%:p")<CR><CR> 
-
-
-
-
-inoremap <expr> <Tab> pumvisible() ? coc#_select_confirm() : "<Tab>"
+nnoremap \ :Ag<SPACE>
